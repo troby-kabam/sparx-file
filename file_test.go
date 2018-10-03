@@ -3,7 +3,7 @@ package file
 import "testing"
 
 var test_file string = "testfile.txt"
-var importedFile fileData
+var importedFile FileData
 var tErr error
 
 func TestImportFile(t *testing.T) {

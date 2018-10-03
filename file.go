@@ -8,14 +8,14 @@ import (
 	"crypto/sha256"
 )
 
-type fileData struct {
+type FileData struct {
 	data string
 	name string
 	checksum string
 }
 
-func ImportFile(filename string) (fileData, error) {
-	var importedFile fileData
+func ImportFile(filename string) (FileData, error) {
+	var importedFile FileData
 	fp, err := os.Open(filename)
 	if err != nil {
 		return importedFile, err
