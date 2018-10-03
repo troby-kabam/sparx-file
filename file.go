@@ -14,39 +14,33 @@ type fileData struct {
 	checksum string
 }
 
-func EncodeFile(filename string) (string, error) {
-	var encodedData string
+func ImportFile(filename string) (fileData, error) {
+	var importedFile fileData
 	fp, err := os.Open(filename)
 	if err != nil {
-		msg := fmt.Sprintf("cannot open %s", filename)
-		return msg, err
+		return importedFile, err
 	}
 
+	// create encoded data
 	b := bytes.Buffer{}
-	count, err := b.ReadFrom(fp)
+	_, err = b.ReadFrom(fp)
 	if err != nil {
-		msg := fmt.Sprintf("ReadFrom error")
-		return msg, err
+		return importedFile, err
 	}
-	msg := fmt.Sprintf("bytes read: %d\n", count)
-	os.Stderr.WriteString(msg)
 	err = fp.Close()
 	if err != nil {
-		msg := fmt.Sprintf("error closing file")
-		return msg, err
+		return importedFile, err
 	}
-	encodedData = base64.StdEncoding.EncodeToString(b.Bytes())
-	return encodedData, nil
-}
+	importedFile.data = base64.StdEncoding.EncodeToString(b.Bytes())
 
-func GetChecksum(encodedData string) (string, error) {
-	decodedData, err := base64.StdEncoding.DecodeString(encodedData)
-	if err != nil {
-		msg := "decoding failed"
-		return msg, err
-	}
+	// create checksum
 	h := sha256.New()
-	h.Write(decodedData)
+	h.Write(b.Bytes())
 	sum := fmt.Sprintf("%x", h.Sum(nil))
-	return sum, nil
+	importedFile.checksum = sum
+
+	// set filename
+	importedFile.name = filename
+
+	return importedFile, nil
 }
