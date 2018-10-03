@@ -3,20 +3,27 @@ package file
 import "testing"
 
 var test_file string = "testfile.txt"
-var encoded_data string
+var importedFile fileData = ImportFile(test_file)
 
-func TestEncodeFile(t *testing.T) {
+func TestEncodedData(t *testing.T) {
 	expected := "dGhpcyBpcyBhIHRlc3QK"
-	actual, _ := EncodeFile(test_file)
+	actual := importedFile.data
 	if expected != actual {
 		t.Errorf("expected: %s actual: %s", expected, actual)
 	}
-	encoded_data = actual
 }
 
-func TestGetChecksum(t *testing.T) {
+func TestChecksum(t *testing.T) {
 	expected := "91751cee0a1ab8414400238a761411daa29643ab4b8243e9a91649e25be53ada"
-	actual, _ := GetChecksum(encoded_data)
+	actual := importedFile.checksum
+	if expected != actual {
+		t.Errorf("expected: %s actual: %s", expected, actual)
+	}
+}
+
+func TestFilename(t *testing.T) {
+	expected := test_file
+	actual := importedFile.name
 	if expected != actual {
 		t.Errorf("expected: %s actual: %s", expected, actual)
 	}
