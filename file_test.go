@@ -3,7 +3,15 @@ package file
 import "testing"
 
 var test_file string = "testfile.txt"
-var importedFile fileData = ImportFile(test_file)
+var importedFile fileData
+var tErr error
+
+func TestImportFile(t *testing.T) {
+	importedFile, tErr = ImportFile(test_file)
+	if tErr != nil {
+		t.Errorf("ImportFile failed")
+	}
+}
 
 func TestEncodedData(t *testing.T) {
 	expected := "dGhpcyBpcyBhIHRlc3QK"
