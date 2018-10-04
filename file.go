@@ -14,6 +14,7 @@ type FileData struct {
 	checksum string
 }
 
+// construct a default FileData struct for manual population
 func New() *FileData {
 	return &FileData{
 		data:		"aGVsbG8=",
@@ -22,12 +23,13 @@ func New() *FileData {
 	}
 }
 
+// import file into FileData struct
 func NewFileData(filename string) (*FileData, error) {
-	newData, err := ImportFile(filename)
+	newData, err := importFile(filename)
 	return &newData, err
 }
 
-func ImportFile(filename string) (FileData, error) {
+func importFile(filename string) (FileData, error) {
 	var importedFile FileData
 	fp, err := os.Open(filename)
 	if err != nil {

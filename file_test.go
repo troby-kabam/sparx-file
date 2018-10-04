@@ -9,9 +9,9 @@ var importedFile *FileData
 var tErr error
 
 func TestImportFile(t *testing.T) {
-	testData, err := ImportFile(test_file)
+	testData, err := importFile(test_file)
 	if err != nil {
-		t.Errorf("ImportFile failed")
+		t.Errorf("importFile failed")
 	}
 	if testData.name != test_file {
 		t.Errorf("TestImportFile: functional test failed on testData.name")
