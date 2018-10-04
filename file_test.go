@@ -16,14 +16,14 @@ func TestImportFile(t *testing.T) {
 	if err != nil {
 		t.Errorf("importFile failed")
 	}
-	if testData.name != test_file {
-		t.Errorf("TestImportFile: functional test failed on testData.name")
+	if testData.Name != test_file {
+		t.Errorf("TestImportFile: functional test failed on testData.Name")
 	}
-	if testData.checksum != test_file_checksum {
-		t.Errorf("TestImportFile: functional test failed on testData.checksum")
+	if testData.Checksum != test_file_checksum {
+		t.Errorf("TestImportFile: functional test failed on testData.Checksum")
 	}
-	if testData.data != test_file_data {
-		t.Errorf("TestImportFile: functional test failed on testData.data")
+	if testData.Data != test_file_data {
+		t.Errorf("TestImportFile: functional test failed on testData.Data")
 	}
 }
 

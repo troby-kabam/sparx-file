@@ -10,17 +10,17 @@ import (
 )
 
 type FileData struct {
-	data string
-	name string
-	checksum string
+	Data string
+	Name string
+	Checksum string
 }
 
 // construct a default FileData struct for manual population
 func New() *FileData {
 	return &FileData{
-		data:		"aGVsbG8=",
-		checksum:	"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
-		name:		"hello.txt",
+		Data:		"aGVsbG8=",
+		Checksum:	"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+		Name:		"hello.txt",
 	}
 }
 
@@ -47,37 +47,38 @@ func importFile(filename string) (FileData, error) {
 	if err != nil {
 		return importedFile, err
 	}
-	importedFile.data = base64.StdEncoding.EncodeToString(b.Bytes())
+	importedFile.Data = base64.StdEncoding.EncodeToString(b.Bytes())
 
 	// create checksum
 	h := sha256.New()
 	h.Write(b.Bytes())
 	sum := fmt.Sprintf("%x", h.Sum(nil))
-	importedFile.checksum = sum
+	importedFile.Checksum = sum
 
 	// set filename
-	importedFile.name = filename
+	importedFile.Name = filename
 
 	return importedFile, nil
 }
 
 func (sp *FileData) GetName() string {
-	return sp.name
+	return sp.Name
 }
 
 func (sp *FileData) GetData() string {
-	return sp.data
+	return sp.Data
 }
 
 func (sp *FileData) GetChecksum() string {
-	return sp.checksum
+	return sp.Checksum
 }
 
 func (sp *FileData) MarshalJSON() ([]byte, error) {
-	json_text := fmt.Sprintf("{\"name\": \"%s\", \"data\": \"%s\", \"checksum\": \"%s\"}", sp.GetName(), sp.GetData(), sp.GetChecksum())
+	json_text := FileData{Name: sp.GetName(), Data: sp.GetData(), Checksum: sp.GetChecksum(),}
 	b, err := json.Marshal(json_text)
 	if err != nil {
 		return b, err
 	}
+
 	return b, nil
 }
