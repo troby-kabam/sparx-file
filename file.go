@@ -75,5 +75,9 @@ func (sp *FileData) GetChecksum() string {
 
 func (sp *FileData) MarshalJSON() ([]byte, error) {
 	json_text := fmt.Sprintf("{\"name\": \"%s\", \"data\": \"%s\", \"checksum\": \"%s\"}", sp.GetName(), sp.GetData(), sp.GetChecksum())
-	return json.Marshal(json_text)
+	b, err := json.Marshal(json_text)
+	if err != nil {
+		return b, err
+	}
+	return b, nil
 }
