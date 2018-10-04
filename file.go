@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"crypto/sha256"
 )
 
@@ -70,4 +71,9 @@ func (sp *FileData) GetData() string {
 
 func (sp *FileData) GetChecksum() string {
 	return sp.checksum
+}
+
+func (sp *FileData) MarshalJSON() ([]byte, error) {
+	json_text := fmt.Sprintf("{\"name\": \"%s\", \"data\": \"%s\", \"checksum\": \"%s\"}", sp.GetName(), sp.GetData(), sp.GetChecksum())
+	return json.Marshal(json_text)
 }

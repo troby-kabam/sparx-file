@@ -1,6 +1,9 @@
 package file
 
-import "testing"
+import (
+	"testing"
+	"encoding/json"
+)
 
 var test_file string		= "testfile.txt"
 var test_file_data string	= "dGhpcyBpcyBhIHRlc3QK"
@@ -46,5 +49,16 @@ func TestGetData(t *testing.T) {
 func TestGetChecksum(t *testing.T) {
 	if importedFile.GetChecksum() != test_file_checksum {
 		t.Errorf("GetChecksum method failed")
+	}
+}
+
+// return struct as json formatted []byte data
+func TestMarshalJSON(t *testing.T) {
+	json_data, err := importedFile.MarshalJSON()
+	if err != nil {
+		t.Errorf("MarshalJSON generated error")
+	}
+	if json.Valid(json_data) != true {
+		t.Errorf("TestMarshalJSON: invalid json data")
 	}
 }
