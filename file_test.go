@@ -3,6 +3,7 @@ package file
 import (
 	"testing"
 	"reflect"
+	"regexp"
 	"encoding/json"
 )
 
@@ -72,5 +73,18 @@ func TestGetBuffer(t *testing.T) {
 	}
 	if reflect.TypeOf(b) != reflect.TypeOf(bExpected) {
 		t.Errorf("type mismatch")
+	}
+}
+
+func TestMakeChecksum(t *testing.T) {
+	b := []byte{}
+	expected := "^[a-f0-9]{64}$"
+	sum := makeChecksum(b)
+	match, err := regexp.MatchString(expected, sum)
+	if err != nil {
+		t.Errorf("regexp.Match error")
+	}
+	if match != true {
+		t.Errorf("checksum mismatch")
 	}
 }

@@ -39,19 +39,19 @@ func importFile(filename string) (FileData, error) {
 		return importedFile, err
 	}
 
-	// create encoded data
-	importedFile.Data = base64.StdEncoding.EncodeToString(b)
+	// assign values to struct
+	importedFile.Data	= base64.StdEncoding.EncodeToString(b)
+	importedFile.Name	= filename
+	importedFile.Checksum	= makeChecksum(b)
 
-	// create checksum
+	return importedFile, nil
+}
+
+func makeChecksum(b []byte) string {
 	h := sha256.New()
 	h.Write(b)
 	sum := fmt.Sprintf("%x", h.Sum(nil))
-	importedFile.Checksum = sum
-
-	// set filename
-	importedFile.Name = filename
-
-	return importedFile, nil
+	return sum
 }
 
 func getBuffer(filename string) ([]byte, error) {
