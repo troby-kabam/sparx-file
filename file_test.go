@@ -5,7 +5,7 @@ import "testing"
 var test_file string		= "testfile.txt"
 var test_file_data string	= "dGhpcyBpcyBhIHRlc3QK"
 var test_file_checksum string	= "91751cee0a1ab8414400238a761411daa29643ab4b8243e9a91649e25be53ada"
-var importedFile fileData
+var importedFile FileData
 var tErr error
 
 func TestImportFile(t *testing.T) {
