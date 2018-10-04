@@ -57,3 +57,15 @@ func ImportFile(filename string) (FileData, error) {
 
 	return importedFile, nil
 }
+
+func (sp *FileData) GetName() string {
+	return sp.name
+}
+
+func (sp *FileData) GetData() string {
+	return sp.data
+}
+
+func (sp *FileData) GetChecksum() string {
+	return sp.checksum
+}
