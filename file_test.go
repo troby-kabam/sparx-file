@@ -2,6 +2,7 @@ package file
 
 import (
 	"testing"
+	"reflect"
 	"encoding/json"
 )
 
@@ -60,5 +61,16 @@ func TestMarshalJSON(t *testing.T) {
 	}
 	if json.Valid(json_data) != true {
 		t.Errorf("TestMarshalJSON: invalid json data")
+	}
+}
+
+func TestGetBuffer(t *testing.T) {
+	bExpected := []byte{}
+	b, err := getBuffer(test_file)
+	if err != nil {
+		t.Errorf("getBuffer failed")
+	}
+	if reflect.TypeOf(b) != reflect.TypeOf(bExpected) {
+		t.Errorf("type mismatch")
 	}
 }

@@ -32,26 +32,19 @@ func NewFileData(filename string) (*FileData, error) {
 
 func importFile(filename string) (FileData, error) {
 	var importedFile FileData
-	fp, err := os.Open(filename)
+
+	// create buffer from file
+	b, err := getBuffer(filename)
 	if err != nil {
 		return importedFile, err
 	}
 
 	// create encoded data
-	b := bytes.Buffer{}
-	_, err = b.ReadFrom(fp)
-	if err != nil {
-		return importedFile, err
-	}
-	err = fp.Close()
-	if err != nil {
-		return importedFile, err
-	}
-	importedFile.Data = base64.StdEncoding.EncodeToString(b.Bytes())
+	importedFile.Data = base64.StdEncoding.EncodeToString(b)
 
 	// create checksum
 	h := sha256.New()
-	h.Write(b.Bytes())
+	h.Write(b)
 	sum := fmt.Sprintf("%x", h.Sum(nil))
 	importedFile.Checksum = sum
 
@@ -59,6 +52,23 @@ func importFile(filename string) (FileData, error) {
 	importedFile.Name = filename
 
 	return importedFile, nil
+}
+
+func getBuffer(filename string) ([]byte, error) {
+	b := bytes.Buffer{}
+	fp, err := os.Open(filename)
+	if err != nil {
+		return b.Bytes(), err
+	}
+	_, err = b.ReadFrom(fp)
+	if err != nil {
+		return b.Bytes(), err
+	}
+	err = fp.Close()
+	if err != nil {
+		return b.Bytes(), err
+	}
+	return b.Bytes(), nil
 }
 
 func (sp *FileData) GetName() string {
