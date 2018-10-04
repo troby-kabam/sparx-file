@@ -22,9 +22,9 @@ func New() *FileData {
 	}
 }
 
-func NewFileData(filename string) (FileData, error) {
+func NewFileData(filename string) (*FileData, error) {
 	newData, err := ImportFile(filename)
-	return newData, err
+	return &newData, err
 }
 
 func ImportFile(filename string) (FileData, error) {
