@@ -43,15 +43,39 @@ func TestGetName(t *testing.T) {
 	}
 }
 
+func TestSetName(t *testing.T) {
+	testData := New()
+	testData.SetName(test_file)
+	if testData.GetName() != test_file {
+		t.Errorf("SetName method failed")
+	}
+}
+
 func TestGetData(t *testing.T) {
 	if importedFile.GetData() != test_file_data {
 		t.Errorf("GetData method failed")
 	}
 }
 
+func TestSetData(t *testing.T) {
+	testData := New()
+	testData.SetData(test_file_data)
+	if testData.GetData() != test_file_data {
+		t.Errorf("SetData method failed")
+	}
+}
+
 func TestGetChecksum(t *testing.T) {
 	if importedFile.GetChecksum() != test_file_checksum {
 		t.Errorf("GetChecksum method failed")
+	}
+}
+
+func TestSetChecksum(t *testing.T) {
+	testData := New()
+	testData.SetChecksum(test_file_checksum)
+	if testData.GetChecksum() != test_file_checksum {
+		t.Errorf("SetChecksum method failed")
 	}
 }
 
