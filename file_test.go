@@ -91,6 +91,22 @@ func TestMarshalJSON(t *testing.T) {
 	test_data_json = json_data
 }
 
+func TestUnmarshalJSON(t *testing.T) {
+	testData, err := UnmarshalJSON(test_data_json)
+	if err !=nil {
+		t.Errorf("UnmarshalJSON error")
+	}
+	if testData.GetName() != test_file {
+		t.Errorf("Name mismatch")
+	}
+	if testData.GetData() != test_file_data {
+		t.Errorf("Data mismatch")
+	}
+	if testData.GetChecksum() != test_file_checksum {
+		t.Errorf("Checksum mismatch")
+	}
+}
+
 func TestGetBuffer(t *testing.T) {
 	bExpected := []byte{}
 	b, err := getBuffer(test_file)

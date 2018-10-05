@@ -35,3 +35,12 @@ func (sp *FileData) MarshalJSON() ([]byte, error) {
 
 	return b, nil
 }
+
+func UnmarshalJSON(b []byte) (*FileData, error) {
+	unmarshaledData := New()
+	err := json.Unmarshal(b, unmarshaledData)
+	if err != nil {
+		return nil, err
+	}
+	return unmarshaledData, nil
+}
