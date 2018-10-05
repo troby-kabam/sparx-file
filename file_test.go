@@ -10,6 +10,7 @@ import (
 var test_file string		= "testfile.txt"
 var test_file_data string	= "dGhpcyBpcyBhIHRlc3QK"
 var test_file_checksum string	= "91751cee0a1ab8414400238a761411daa29643ab4b8243e9a91649e25be53ada"
+var test_data_json []byte
 var importedFile *FileData
 var tErr error
 
@@ -63,6 +64,7 @@ func TestMarshalJSON(t *testing.T) {
 	if json.Valid(json_data) != true {
 		t.Errorf("TestMarshalJSON: invalid json data")
 	}
+	test_data_json = json_data
 }
 
 func TestGetBuffer(t *testing.T) {
