@@ -45,6 +45,14 @@ func UnmarshalJSON(b []byte) (*FileData, error) {
 	return unmarshaledData, nil
 }
 
+func UnmarshalFile(filename string) (*FileData, error) {
+	b, err := getBuffer(filename)
+	if err != nil {
+		return nil, err
+	}
+	return UnmarshalJSON(b)
+}
+
 func (sp *FileData) RestoreFile(filename string) (int, error) {
 	if filename == "" {
 		filename = sp.Name

@@ -9,6 +9,7 @@ import (
 )
 
 var test_file string		= "testfile.txt"
+var test_file_json string	= "testfile.json"
 var test_file_data string	= "dGhpcyBpcyBhIHRlc3QK"
 var test_file_checksum string	= "91751cee0a1ab8414400238a761411daa29643ab4b8243e9a91649e25be53ada"
 var test_data_json []byte
@@ -156,5 +157,22 @@ func TestRestoreFile(t *testing.T) {
 	sum := makeChecksum(b)
 	if sum != test_file_checksum {
 		t.Errorf("RestoreFile: checksum mismatch")
+	}
+}
+
+func TestUnmarshalFile(t *testing.T) {
+	testData, err := UnmarshalFile(test_file_json)
+	if err != nil {
+		msg := fmt.Sprintf("UnmarshalFile error: %s", err)
+		t.Errorf(msg)
+	}
+	if testData.GetName() != test_file {
+		t.Errorf("Name mismatch")
+	}
+	if testData.GetData() != test_file_data {
+		t.Errorf("Data mismatch")
+	}
+	if testData.GetChecksum() != test_file_checksum {
+		t.Errorf("Checksum mismatch")
 	}
 }
