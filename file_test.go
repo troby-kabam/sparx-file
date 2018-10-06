@@ -5,6 +5,7 @@ import (
 	"testing"
 	"reflect"
 	"regexp"
+	"syscall"
 	"encoding/json"
 )
 
@@ -158,6 +159,7 @@ func TestRestoreFile(t *testing.T) {
 	if sum != test_file_checksum {
 		t.Errorf("RestoreFile: checksum mismatch")
 	}
+	syscall.Unlink(test_file_restored)
 }
 
 func TestUnmarshalFile(t *testing.T) {
