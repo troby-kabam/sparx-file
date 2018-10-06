@@ -49,3 +49,24 @@ func getBuffer(filename string) ([]byte, error) {
 	}
 	return b.Bytes(), nil
 }
+
+func decodeData(encoded string) ([]byte, error) {
+	decoded, err := base64.StdEncoding.DecodeString(encoded)
+	if err != nil {
+		return []byte{}, err
+	}
+	return decoded, nil
+}
+
+func writeFile(filename string, data []byte) (int, error) {
+	fp, err := os.Create(filename)
+	if err != nil {
+		return 0, err
+	}
+	count, err := fp.Write(data)
+	if err != nil {
+		return count, err
+	}
+	fp.Close()
+	return count, nil
+}

@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"testing"
 	"reflect"
 	"regexp"
@@ -128,5 +129,32 @@ func TestMakeChecksum(t *testing.T) {
 	}
 	if match != true {
 		t.Errorf("checksum mismatch")
+	}
+}
+
+func TestDecodeData(t *testing.T) {
+	expected := "this is a test\n"
+	actual, err := decodeData(test_file_data)
+	if err != nil {
+		t.Errorf("decodeData error: %s", err)
+	}
+	if string(actual) != expected {
+		msg := fmt.Sprintf("expected: %s actual: %s", expected, actual)
+		t.Errorf(msg)
+	}
+}
+
+func TestRestoreFile(t *testing.T) {
+	test_file_restored := fmt.Sprintf("%s-restored", test_file)
+	count, err := importedFile.RestoreFile(test_file_restored)
+	if err != nil {
+		msg := fmt.Sprintf("RestoreFile error: %s", err)
+		t.Errorf(msg)
+	}
+	fmt.Println(count, " bytes written")
+	b, _ := getBuffer(test_file_restored)
+	sum := makeChecksum(b)
+	if sum != test_file_checksum {
+		t.Errorf("RestoreFile: checksum mismatch")
 	}
 }

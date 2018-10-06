@@ -44,3 +44,18 @@ func UnmarshalJSON(b []byte) (*FileData, error) {
 	}
 	return unmarshaledData, nil
 }
+
+func (sp *FileData) RestoreFile(filename string) (int, error) {
+	if filename == "" {
+		filename = sp.Name
+	}
+	decoded, err := decodeData(sp.GetData())
+	if err != nil {
+		return 0, err
+	}
+	count, err := writeFile(filename, decoded)
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
