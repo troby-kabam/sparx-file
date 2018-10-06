@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"crypto/sha256"
+	"path/filepath"
 )
 
 func importFile(filename string) (FileData, error) {
@@ -19,7 +20,7 @@ func importFile(filename string) (FileData, error) {
 
 	// assign values to struct
 	importedFile.Data	= base64.StdEncoding.EncodeToString(b)
-	importedFile.Name	= filename
+	importedFile.Name	= filepath.Base(filename)
 	importedFile.Checksum	= makeChecksum(b)
 
 	return importedFile, nil
