@@ -53,15 +53,12 @@ func UnmarshalFile(filename string) (*FileData, error) {
 	return UnmarshalJSON(b)
 }
 
-func (sp *FileData) RestoreFile(filename string) (int, error) {
-	if filename == "" {
-		filename = sp.Name
-	}
+func (sp *FileData) RestoreFile() (int, error) {
 	decoded, err := decodeData(sp.GetData())
 	if err != nil {
 		return 0, err
 	}
-	count, err := writeFile(filename, decoded)
+	count, err := writeFile(sp.GetName(), decoded)
 	if err != nil {
 		return 0, err
 	}

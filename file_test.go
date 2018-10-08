@@ -5,7 +5,6 @@ import (
 	"testing"
 	"reflect"
 	"regexp"
-	"syscall"
 	"encoding/json"
 )
 
@@ -147,19 +146,17 @@ func TestDecodeData(t *testing.T) {
 }
 
 func TestRestoreFile(t *testing.T) {
-	test_file_restored := fmt.Sprintf("%s-restored", test_file)
-	count, err := importedFile.RestoreFile(test_file_restored)
+	count, err := importedFile.RestoreFile()
 	if err != nil {
 		msg := fmt.Sprintf("RestoreFile error: %s", err)
 		t.Errorf(msg)
 	}
 	fmt.Println(count, " bytes written")
-	b, _ := getBuffer(test_file_restored)
+	b, _ := getBuffer(importedFile.Name)
 	sum := makeChecksum(b)
 	if sum != test_file_checksum {
 		t.Errorf("RestoreFile: checksum mismatch")
 	}
-	syscall.Unlink(test_file_restored)
 }
 
 func TestUnmarshalFile(t *testing.T) {
