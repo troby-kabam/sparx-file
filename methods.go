@@ -44,13 +44,14 @@ func (sp *FileData) MarshalJSON() ([]byte, error) {
 }
 
 func UnmarshalJSON(b []byte) (*FileData, error) {
+	if json.Valid(b) != true {
+		err := errors.New("no valid json found")
+		return nil, err
+	}
+
 	unmarshaledData := New()
 	err := json.Unmarshal(b, unmarshaledData)
 	if err != nil {
-		return nil, err
-	}
-	if json.Valid(b) != true {
-		err := errors.New("json.Unmarshal() did not return valid json")
 		return nil, err
 	}
 	return unmarshaledData, nil
