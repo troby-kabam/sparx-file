@@ -1,6 +1,9 @@
 package file
 
-import "encoding/json"
+import (
+	"errors"
+	"encoding/json"
+)
 
 func (sp *FileData) GetName() string {
 	return sp.Name
@@ -33,6 +36,10 @@ func (sp *FileData) MarshalJSON() ([]byte, error) {
 		return b, err
 	}
 
+	if json.Valid(b) != true {
+		err := errors.New("json.Marshal() returned invalid json")
+		return b, err
+	}
 	return b, nil
 }
 
@@ -40,6 +47,10 @@ func UnmarshalJSON(b []byte) (*FileData, error) {
 	unmarshaledData := New()
 	err := json.Unmarshal(b, unmarshaledData)
 	if err != nil {
+		return nil, err
+	}
+	if json.Valid(b) != true {
+		err := errors.New("json.Unmarshal() did not return valid json")
 		return nil, err
 	}
 	return unmarshaledData, nil
