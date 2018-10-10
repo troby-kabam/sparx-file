@@ -70,3 +70,15 @@ func writeFile(filename string, data []byte) (int, error) {
 	fp.Close()
 	return count, nil
 }
+
+func verifyFile(name string, sum string) (bool, error) {
+	b, err := getBuffer(name)
+	if err != nil {
+		return false, err
+	}
+	if makeChecksum(b) == sum {
+		return true, nil
+	} else {
+		return false, err
+	}
+}

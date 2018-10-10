@@ -74,5 +74,10 @@ func (sp *FileData) RestoreFile() (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	resp, err := verifyFile(sp.GetName(), sp.GetChecksum())
+	if resp != true || err != nil {
+		err := errors.New("RestoreFile: verify failed")
+		return 0, err
+	}
 	return count, nil
 }

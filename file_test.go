@@ -16,6 +16,14 @@ var test_data_json []byte
 var importedFile *FileData
 var tErr error
 
+func TestVerifyFile(t *testing.T) {
+	resp, err := verifyFile(test_file, test_file_checksum)
+	if resp != true || err != nil {
+		msg := fmt.Sprintf("verifyFile failed: %s", err)
+		t.Errorf(msg)
+	}
+}
+
 func TestImportFile(t *testing.T) {
 	testData, err := importFile(test_file)
 	if err != nil {
@@ -148,7 +156,7 @@ func TestDecodeData(t *testing.T) {
 func TestRestoreFile(t *testing.T) {
 	count, err := importedFile.RestoreFile()
 	if err != nil {
-		msg := fmt.Sprintf("RestoreFile error: %s", err)
+		msg := fmt.Sprintf("%s", err)
 		t.Errorf(msg)
 	}
 	fmt.Println(count, " bytes written")
